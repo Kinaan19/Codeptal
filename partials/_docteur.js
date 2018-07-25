@@ -1,3 +1,6 @@
+import { Pharmacie } from "./_pharmacie.js";
+var pharmacie = new Pharmacie("la cave",0);
+
 export class Docteur {
     constructor(nom,cabinet,argent,salleA){
         this.nom = nom,
@@ -42,13 +45,16 @@ export class Docteur {
     };
     patientIn(){
         let patientCourant = this.salleA.shift();
-        this.cabinet.push(patientCourant);
-        console.log(`${patientCourant.nom} rentre dans le cabinet du docteur ${this.nom}.`);
-        this.diagnostique(patientCourant);
-        this.patientOut();
-        if(this.salleA.length>0){
-            this.patientIn();
-        };
+        setTimeout(()=>{
+            this.cabinet.push(patientCourant);
+            console.log(`${patientCourant.nom} rentre   dans le cabinet du docteur ${this.nom}.`);
+            this.diagnostique(patientCourant);
+            this.patientOut();
+            pharmacie.venteMedoc(patientCourant);
+            if(this.salleA.length>0){
+                setTimeout(this.patientIn(),2000);
+            };
+        },2000)        
     };
     patientOut(){
         this.cabinet.pop();
